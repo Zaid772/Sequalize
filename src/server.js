@@ -8,22 +8,40 @@ const app = express();
 app.use(express.json());
 
 const {DataTypes} = require("sequelize")
-const connection = requuire("./db/connection");
+const connection = require("./db/connection");
 
 const Book = connection.define("Book", {
     title: {
         type: DataTypes.STRING,
+        unique: true,
+        allowNull:false,
     },
     author: {
         type: DataTypes.STRING,
     },
-    GENRE: {
+    genre: {
         type: DataTypes.STRING,
     }
 });
 
-app.listen(port, () => {
-    console.log(`App is listening on ${port}`)
+const syncTables = () => {
+    Book.sync();
+}
+
+app.post("/addabook", async (req, res) => {
+    console.log(req.body);
+    const book = await Book.create({
+        title: req.body.title,
+        author: req.body.author,
+        genre:req.body.genre,
+    });
+
+    const successResponse = {
+        book: book,
+        message: "book created",
+    };
+
+    res.status(201).json(successResponse);
 });
 
 app.get("/health", (req, res) => {
@@ -31,5 +49,6 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(port, () => {
+    syncTables();
     console.log(`App is listening on port ${port}`);
 });
