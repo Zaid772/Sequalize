@@ -80,6 +80,19 @@ app.delete("/deleteabook", async (req, res) => {
     res.status(201).json(successResponse);
 });
 
+app.put("/updateabook", async (req, res) => {
+    const updateaBook = await Book.update(
+        { author: req.body.newAuthor},
+        { which: { title: req.body.title } }
+    );
+    const successResponse = {
+        updated: updateaBook,
+        message: "book updated"
+    };
+
+    res.status(201).json(successResponse);
+});
+
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "API is healthy"});
 });
