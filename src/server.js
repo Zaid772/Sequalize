@@ -1,48 +1,27 @@
 require("dotenv").config();
 const express = require("express");
 
+const Book = require("./books/model");
+const Genre = require("./genres/model");
+
+const bookRouter = require("./books/routes")
+
 const port = process.env. PORT || 5001;
 
 const app = express();
 
 app.use(express.json());
 
-const {DataTypes} = require("sequelize")
-const connection = require("./db/connection");
-
-const Book = connection.define("Book", {
-    title: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull:false,
-    },
-    author: {
-        type: DataTypes.STRING,
-    },
-    genre: {
-        type: DataTypes.STRING,
-    }
-});
+app.use("/books", bookRouter);
+app.use("/genres", genreRouter)
 
 const syncTables = () => {
-    Book.sync();
-}
+    Book.sync({ alter: true });
+    Genre.sync();
 
-app.post("/addabook", async (req, res) => {
-    console.log(req.body);
-    const book = await Book.create({
-        title: req.body.title,
-        author: req.body.author,
-        genre:req.body.genre,
-    });
-
-    const successResponse = {
-        book: book,
-        message: "book created",
-    };
-
-    res.status(201).json(successResponse);
-});
+    Book.hasOne(Genre);
+    Genre.belongsTo(Book);
+};
 
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "API is healthy"});
@@ -52,3 +31,4 @@ app.listen(port, () => {
     syncTables();
     console.log(`App is listening on port ${port}`);
 });
+
