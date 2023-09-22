@@ -4,7 +4,7 @@ const express = require("express");
 // const Book = require("./books/model");
 // const Genre = require("./genres/model");
 
-// const bookRouter = require("./books/routes")
+const bookRouter = require("./books/routes")
 
 const port = process.env. PORT || 5001;
 
@@ -42,7 +42,7 @@ const syncTables = () => {
 };
 
 app.post("/addbook", async (req, res) => {
-    const book = await Book({
+    const book = await Book.create({
         title: req.body.title,
         author: req.body.author,
         genre: req.body.genre
@@ -50,7 +50,18 @@ app.post("/addbook", async (req, res) => {
     const successResponse = {
         book: book,
         message: "book created"
-    }
+    };
+
+    res.status(201).json(successResponse);
+});
+
+app.get("/listallbooks", async (req, res) => {
+    const listAllBooks = await Book.findAll({});
+
+    const successResponse = {
+        books: listAllBooks,
+        message: "Success"
+    };
 
     res.status(201).json(successResponse);
 });
