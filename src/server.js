@@ -66,6 +66,20 @@ app.get("/listallbooks", async (req, res) => {
     res.status(201).json(successResponse);
 });
 
+app.delete("/deleteabook", async (req, res) => {
+    const deleteaBook = await Book.destroy({
+        title: req.body.title,
+        author: req.body.author,
+        genre: req.body.genre
+    })
+    const successResponse = {
+        deleted: deleteaBook,
+        message: "book deleted"
+    };
+
+    res.status(201).json(successResponse);
+});
+
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "API is healthy"});
 });
