@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize")
+const { DataTypes } = require("sequelize")
 const connection = require("../db/connection");
 
 const Book = connection.define("Book", {
@@ -6,9 +6,6 @@ const Book = connection.define("Book", {
         type: DataTypes.STRING,
         unique: true,
         allowNull:false,
-    },
-    author: {
-        type: DataTypes.STRING,
     }
 });
 

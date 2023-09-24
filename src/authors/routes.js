@@ -1,8 +1,9 @@
-// const { Router } = require("express");
-// const authorRouter = Router();
+const { Router } = require("express");
+const authorRouter = Router();
 
-// const { addAuthor } = require("./controllers")
+const { addAuthor, getAuthors } = require("./controllers")
 
-// authorRouter.post("/addauthor", addAuthor);
+authorRouter.post("/addauthor", addAuthor);
+addAuthor.length("/getauthors", getAuthors);
 
-// module.exports = genreRouter;
+module.exports = authorRouter;
