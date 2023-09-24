@@ -3,23 +3,11 @@ const bookRouter = Router();
 
 const Book = require("./model");
 
-const { getAllBooks } = require("./controllers")
+const { getAllBooks, addBooks } = require("./controllers")
 
-bookRouter.post("/addbook", async (req, res) => {
-    const book = await Book.create({
-        title: req.body.title,
-        author: req.body.author,
-        genre: req.body.genre
-    });
-    const successResponse = {
-        book: book,
-        message: "book created"
-    };
+bookRouter.post("/addbook", addBooks);
 
-    res.status(201).json(successResponse);
-});
-
-bookRouter.get("/getallbooks", getAllBooks)
+bookRouter.get("/listallbooks", getAllBooks);
 
 bookRouter.delete("/deleteabook", async (req, res) => {
     const deleteaBook = await Book.destroy({
