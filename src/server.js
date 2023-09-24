@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 
-// const Book = require("./books/model");
+const Book = require("./books/model");
 // const Genre = require("./genres/model");
 
 const bookRouter = require("./books/routes")
@@ -14,24 +14,6 @@ app.use(express.json());
 
 app.use("/books", bookRouter);
 // app.use("/genres", genreRouter)
-
-const {DataTypes} = require("sequelize")
-const connection = require("./db/connection");
-
-const Book = connection.define("Book", {
-    title: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull:false,
-    },
-    author: {
-        type: DataTypes.STRING,
-    },
-    genre: {
-        type: DataTypes.STRING,
-    }
-});
-
 
 const syncTables = () => {
     Book.sync();

@@ -1,6 +1,10 @@
 const { Router }= require("express");
 const bookRouter = Router();
 
+const Book = require("./model");
+
+const { getAllBooks } = require("./controllers")
+
 bookRouter.post("/addbook", async (req, res) => {
     const book = await Book.create({
         title: req.body.title,
@@ -15,16 +19,7 @@ bookRouter.post("/addbook", async (req, res) => {
     res.status(201).json(successResponse);
 });
 
-bookRouter.get("/listallbooks", async (req, res) => {
-    const listAllBooks = await Book.findAll({});
-
-    const successResponse = {
-        books: listAllBooks,
-        message: "found books"
-    };
-
-    res.status(201).json(successResponse);
-});
+bookRouter.get("/getallbooks", getAllBooks)
 
 bookRouter.delete("/deleteabook", async (req, res) => {
     const deleteaBook = await Book.destroy({
@@ -54,4 +49,4 @@ bookRouter.put("/updateabook", async (req, res) => {
 });
 
 
-module.exports = bookRouter
+module.exports = bookRouter;
