@@ -17,11 +17,11 @@ app.use("/books", bookRouter);
 app.use("/genres", genreRouter)
 
 const syncTables = () => {
+    Genre.hasMany(Book);
+    Book.belongsTo(Genre); 
+    
     Book.sync();
     Genre.sync();
-
-    // Book.hasOne(Genre);
-    // Genre.belongsTo(Book);
 };
 
 app.get("/health", (req, res) => {

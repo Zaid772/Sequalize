@@ -8,10 +8,10 @@ const addGenre = async (req, res) => {
 
         res.status(201).json({ genre: genre, message: "succefully added genre"})
     } catch (error) {
-        res.status(500).json({ error: error, errorMessage: errorMessage })
+        res.status(500).json({ error: error, errorMessage: error.message })
     }
 };
 
 module.exports = {
     addGenre,
-}
+};
